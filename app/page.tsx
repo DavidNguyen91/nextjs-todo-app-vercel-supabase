@@ -1,0 +1,20 @@
+import { TaskApp } from '@/components/TaskApp';
+import styles from './page.module.css';
+
+export default function HomePage() {
+  return (
+    <main className={styles.main}>
+      <div className={styles.container}>
+        <TaskApp />
+
+        <footer className={styles.footer}>
+          <div className={styles.badge}>
+            <span className={styles.badgeDot} aria-hidden="true" />
+            <span>Supabase Cloud &amp; Offline Sync Enabled</span>
+          </div>
+          <p>Designed with Apple Human Interface principles. Pure CSS &amp; Next.js App Router.</p>
+        </footer>
+      </div>
+    </main>
+  );
+}

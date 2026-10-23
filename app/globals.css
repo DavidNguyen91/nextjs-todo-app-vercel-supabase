@@ -1,0 +1,180 @@
+/* Apple iOS Design System: Plain CSS variables, resets, and utilities */
+
+:root {
+  /* System Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Color Palette - Light Theme */
+  --bg-canvas: #f2f2f7;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --bg-secondary: #f2f2f7;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --bg-active: rgba(0, 0, 0, 0.08);
+
+  --text-primary: #1c1c1e;
+  --text-secondary: #8e8e93;
+  --text-tertiary: #c7c7cc;
+  --text-placeholder: #aeaeb2;
+
+  --color-accent: #007aff;
+  --color-accent-hover: #0062cc;
+  --color-accent-subtle: rgba(0, 122, 255, 0.08);
+  --color-accent-text: #ffffff;
+
+  --color-danger: #ff3b30;
+  --color-danger-hover: #d70015;
+  --color-danger-subtle: rgba(255, 59, 48, 0.08);
+
+  --color-success: #34c759;
+
+  --border-subtle: rgba(60, 60, 67, 0.12);
+  --border-focus: #007aff;
+  --border-divider: rgba(60, 60, 67, 0.08);
+
+  /* Elevation and Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --focus-ring: 0 0 0 3px rgba(0, 122, 255, 0.3);
+
+  /* Geometry */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  /* Motion */
+  --transition-fast: 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-normal: 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-canvas: #000000;
+    --bg-card: #1c1c1e;
+    --bg-input: #2c2c2e;
+    --bg-secondary: #2c2c2e;
+    --bg-hover: rgba(255, 255, 255, 0.06);
+    --bg-active: rgba(255, 255, 255, 0.1);
+
+    --text-primary: #f5f5f7;
+    --text-secondary: #98989d;
+    --text-tertiary: #636366;
+    --text-placeholder: #8e8e93;
+
+    --color-accent: #0a84ff;
+    --color-accent-hover: #409cff;
+    --color-accent-subtle: rgba(10, 132, 255, 0.16);
+    --color-accent-text: #ffffff;
+
+    --color-danger: #ff453a;
+    --color-danger-hover: #ff6961;
+    --color-danger-subtle: rgba(255, 69, 58, 0.16);
+
+    --color-success: #30d158;
+
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --border-focus: #0a84ff;
+    --border-divider: rgba(255, 255, 255, 0.08);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --shadow-float: 0 16px 40px rgba(0, 0, 0, 0.6);
+    --focus-ring: 0 0 0 3px rgba(10, 132, 255, 0.4);
+  }
+}
+
+/* CSS Reset & Defaults */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Accessible visually hidden class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

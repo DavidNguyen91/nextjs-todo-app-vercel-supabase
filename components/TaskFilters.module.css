@@ -1,0 +1,93 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.segmentedControl {
+  display: inline-flex;
+  background-color: var(--bg-hover);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  position: relative;
+  z-index: 1;
+}
+
+.segment:hover {
+  color: var(--text-primary);
+}
+
+.segmentActive {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.countBadge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+.segmentActive .countBadge {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+}
+
+.clearButton {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.clearButton:hover {
+  color: var(--color-danger);
+  background-color: var(--color-danger-subtle);
+}
+
+@media (max-width: 480px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .segmentedControl {
+    display: flex;
+    width: 100%;
+  }
+
+  .segment {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 8px;
+  }
+
+  .clearButton {
+    align-self: flex-end;
+    padding: 4px 8px;
+  }
+}

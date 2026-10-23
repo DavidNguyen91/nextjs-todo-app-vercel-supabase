@@ -1,0 +1,85 @@
+.form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  padding: 4px 6px 4px 16px;
+  margin-bottom: 24px;
+}
+
+.form:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: var(--focus-ring), var(--shadow-sm);
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 8px 12px 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+  outline: none;
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 38px;
+}
+
+.addButton:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-0.5px);
+}
+
+.addButton:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.addButton:disabled {
+  background-color: var(--border-subtle);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.buttonText {
+  display: inline;
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 3px 5px 3px 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .input {
+    font-size: 0.9375rem;
+    padding: 10px 6px 10px 0;
+  }
+
+  .addButton {
+    padding: 7px 12px;
+    font-size: 0.8125rem;
+  }
+}

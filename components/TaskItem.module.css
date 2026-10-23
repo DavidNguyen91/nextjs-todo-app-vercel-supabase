@@ -1,0 +1,201 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background-color: var(--bg-card);
+  transition: background-color var(--transition-fast);
+  position: relative;
+}
+
+.item:not(:last-child) {
+  border-bottom: 1px solid var(--border-divider);
+}
+
+.item:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Checkbox */
+.checkboxContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 4px;
+  margin: -4px;
+}
+
+.nativeCheckbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.customCheckbox {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #ffffff;
+  transition: all var(--transition-fast);
+}
+
+.checkboxContainer:hover .customCheckbox {
+  border-color: var(--color-accent);
+}
+
+.nativeCheckbox:focus-visible + .customCheckbox {
+  box-shadow: var(--focus-ring);
+  border-color: var(--color-accent);
+}
+
+.checked .customCheckbox {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* Content Area */
+.contentArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+  word-break: break-word;
+  cursor: pointer;
+  user-select: text;
+  transition: color var(--transition-fast);
+}
+
+.completedTitle {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-tertiary);
+}
+
+/* Inline Edit Form */
+.editForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.editInput {
+  flex: 1;
+  border: 1px solid var(--border-focus);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 0.9375rem;
+  outline: none;
+  box-shadow: var(--focus-ring);
+  min-width: 0;
+}
+
+.editActionButtons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-accent);
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
+}
+
+.saveButton:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-hover);
+  color: var(--text-secondary);
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  transition: all var(--transition-fast);
+}
+
+.cancelButton:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-active);
+}
+
+/* Row Action Buttons (Edit / Delete) */
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.item:hover .actionButtons,
+.item:focus-within .actionButtons {
+  opacity: 1;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.iconButton:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+.deleteButton:hover {
+  color: var(--color-danger);
+  background-color: var(--color-danger-subtle);
+}
+
+/* Mobile & Touch refinements */
+@media (max-width: 768px) {
+  .item {
+    padding: 12px 14px;
+  }
+
+  .actionButtons {
+    opacity: 0.7; /* Always accessible on touch devices */
+  }
+
+  .iconButton {
+    width: 36px;
+    height: 36px; /* Better touch target */
+  }
+}

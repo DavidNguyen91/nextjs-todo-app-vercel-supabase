@@ -1,0 +1,33 @@
+.wrapper {
+  width: 100%;
+}
+
+.loadingPlaceholder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  border: 1px solid var(--border-subtle);
+}
+
+.skeletonLine {
+  height: 20px;
+  background-color: var(--bg-hover);
+  border-radius: var(--radius-sm);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonLineShort {
+  width: 60%;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
