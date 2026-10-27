@@ -54,12 +54,14 @@ export function TaskInput({ onAddTask }: TaskInputProps) {
         disabled={isSubmitting}
         autoComplete="off"
         maxLength={300}
+        data-testid="new-task-input"
       />
       <button
         type="submit"
         className={styles.addButton}
         disabled={!isValid || isSubmitting}
         aria-label="Add task"
+        data-testid="add-task-btn"
       >
         <PlusIcon size={18} />
         <span className={styles.buttonText}>Add</span>

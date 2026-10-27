@@ -62,15 +62,24 @@ export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
   };
 
   return (
-    <li className={`${styles.item} ${task.completed ? styles.checked : ''}`} role="listitem">
+    <li
+      className={`${styles.item} ${task.completed ? styles.checked : ''}`}
+      role="listitem"
+      data-testid="task-item"
+    >
       {/* Checkbox toggle */}
-      <label className={styles.checkboxContainer} title={task.completed ? 'Mark as incomplete' : 'Mark as complete'}>
+      <label
+        className={styles.checkboxContainer}
+        title={task.completed ? 'Mark as incomplete' : 'Mark as complete'}
+        data-testid="task-checkbox-label"
+      >
         <input
           type="checkbox"
           checked={task.completed}
           onChange={() => onToggle(task.id)}
           className={styles.nativeCheckbox}
           aria-label={task.completed ? `Mark "${task.title}" as incomplete` : `Mark "${task.title}" as complete`}
+          data-testid="task-checkbox"
         />
         <span className={styles.customCheckbox} aria-hidden="true">
           {task.completed && <CheckIcon size={14} />}
@@ -90,6 +99,7 @@ export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
               onKeyDown={handleKeyDown}
               maxLength={300}
               aria-label="Edit task title"
+              data-testid="task-edit-input"
             />
             <div className={styles.editActionButtons}>
               <button
@@ -97,6 +107,7 @@ export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
                 className={styles.saveButton}
                 disabled={!editTitle.trim()}
                 aria-label="Save changes"
+                data-testid="task-save-btn"
               >
                 Save
               </button>
@@ -115,6 +126,7 @@ export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
             className={`${styles.title} ${task.completed ? styles.completedTitle : ''}`}
             onDoubleClick={handleStartEditing}
             title="Double-click to edit"
+            data-testid="task-title"
           >
             {task.title}
           </span>
@@ -130,6 +142,7 @@ export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
             onClick={handleStartEditing}
             aria-label={`Edit task "${task.title}"`}
             title="Edit task"
+            data-testid="task-edit-btn"
           >
             <EditIcon size={15} />
           </button>
@@ -139,6 +152,7 @@ export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
             onClick={() => onDelete(task.id)}
             aria-label={`Delete task "${task.title}"`}
             title="Delete task"
+            data-testid="task-delete-btn"
           >
             <TrashIcon size={15} />
           </button>

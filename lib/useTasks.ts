@@ -6,17 +6,27 @@ import { Task, TaskFilter } from '@/types/task';
 import { getActiveRepository } from '@/lib/storage';
 
 export function useTasks(user: User | null = null) {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  // 1️⃣ Nếu không có user, khởi tạo luôn mảng rỗng và không loading
+  const [tasks, setTasks] = useState<Task[]>(() => (user ? [] : []));
   const [filter, setFilter] = useState<TaskFilter>('all');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(() => Boolean(user));
 
   const repository = useMemo(() => getActiveRepository(user), [user]);
 
   // Re-fetch tasks whenever the active storage repository or user session changes
-  useEffect(() => {
+ useEffect(() => {
     let isMounted = true;
 
-    async function loadTasks() {
+    async function syncTasks() {
+      if (!user) {
+        if (isMounted) {
+          setTasks([]);
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      if (isMounted) setIsLoading(true);
       try {
         const loaded = await repository.getTasks();
         if (isMounted) {
@@ -25,22 +35,21 @@ export function useTasks(user: User | null = null) {
         }
       } catch (err) {
         console.error('Failed to load tasks', err);
-        if (isMounted) {
-          setIsLoading(false);
-        }
+        if (isMounted) setIsLoading(false);
       }
     }
 
-    loadTasks();
+    syncTasks();
+
     return () => {
       isMounted = false;
     };
-  }, [repository]);
-
+  }, [user, repository]);
+  
   const addTask = useCallback(
     async (title: string): Promise<boolean> => {
       const trimmed = title.trim();
-      if (!trimmed) return false;
+      if (!trimmed || !user) return false;
 
       try {
         const created = await repository.createTask({ title: trimmed });
@@ -51,11 +60,13 @@ export function useTasks(user: User | null = null) {
         return false;
       }
     },
-    [repository]
+    [user, repository]
   );
 
   const toggleTask = useCallback(
     async (id: string): Promise<void> => {
+      if (!user) return;
+
       setTasks((prev) =>
         prev.map((t) => (t.id === id ? { ...t, completed: !t.completed, updatedAt: Date.now() } : t))
       );
@@ -72,13 +83,13 @@ export function useTasks(user: User | null = null) {
         setTasks(loaded);
       }
     },
-    [tasks, repository]
+    [user, tasks, repository]
   );
 
   const editTask = useCallback(
     async (id: string, newTitle: string): Promise<boolean> => {
       const trimmed = newTitle.trim();
-      if (!trimmed) return false;
+      if (!trimmed || !user) return false;
 
       const previous = tasks;
       setTasks((prev) =>
@@ -94,11 +105,13 @@ export function useTasks(user: User | null = null) {
         return false;
       }
     },
-    [tasks, repository]
+    [user, tasks, repository]
   );
 
   const deleteTask = useCallback(
     async (id: string): Promise<void> => {
+      if (!user) return;
+
       setTasks((prev) => prev.filter((t) => t.id !== id));
       try {
         await repository.deleteTask(id);
@@ -108,10 +121,12 @@ export function useTasks(user: User | null = null) {
         setTasks(loaded);
       }
     },
-    [repository]
+    [user, repository]
   );
 
   const clearCompleted = useCallback(async (): Promise<void> => {
+    if (!user) return;
+
     setTasks((prev) => prev.filter((t) => !t.completed));
     try {
       await repository.clearCompletedTasks();
@@ -120,7 +135,7 @@ export function useTasks(user: User | null = null) {
       const loaded = await repository.getTasks();
       setTasks(loaded);
     }
-  }, [repository]);
+  }, [user, repository]);
 
   const counts = useMemo(() => {
     const total = tasks.length;
