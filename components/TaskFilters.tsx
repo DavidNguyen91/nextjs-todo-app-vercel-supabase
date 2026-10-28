@@ -39,6 +39,7 @@ export function TaskFilters({
           return (
             <button
               key={key}
+              data-testid={`filter-${key}`}
               role="tab"
               aria-selected={isActive}
               aria-controls="task-list"
@@ -46,7 +47,11 @@ export function TaskFilters({
               onClick={() => onFilterChange(key)}
             >
               <span>{label}</span>
-              <span className={styles.countBadge} aria-label={`${count} ${label.toLowerCase()} tasks`}>
+              <span
+                data-testid={`count-${key}`}
+                className={styles.countBadge}
+                aria-label={`${count} ${label.toLowerCase()} tasks`}
+              >
                 {count}
               </span>
             </button>
@@ -57,6 +62,7 @@ export function TaskFilters({
       {counts.completed > 0 && (
         <button
           type="button"
+          data-testid="clear-completed-btn"
           className={styles.clearButton}
           onClick={onClearCompleted}
           aria-label={`Clear all ${counts.completed} completed tasks`}
