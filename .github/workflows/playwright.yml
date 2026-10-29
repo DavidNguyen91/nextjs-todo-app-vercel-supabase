@@ -20,8 +20,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-        node-version: 22
-        cache: "npm"
+          node-version: 22
+          cache: "npm"
+
       # 3. Cài đặt các thư viện dự án (Next.js, Supabase, Playwright...)
       - name: Install dependencies
         run: npm ci
@@ -30,7 +31,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # 5. Chạy bộ kiểm thử E2E (truyền các biến môi trường từ GitHub Secrets)
+      # 5. Build Next.js app trước khi chạy test
+      - name: Build Next.js app
+        run: npm run build
+
+      # 6. Chạy bộ kiểm thử E2E (truyền các biến môi trường từ GitHub Secrets)
       - name: Run Playwright tests
         run: npx playwright test
         env:
@@ -39,7 +44,7 @@ jobs:
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
-      # 6. (Tùy chọn) Tự động lưu báo cáo test (HTML Report) nếu test fail
+      # 7. (Tùy chọn) Tự động lưu báo cáo test (HTML Report) nếu test fail
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
