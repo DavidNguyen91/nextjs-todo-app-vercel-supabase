@@ -23,7 +23,9 @@
   padding: 12px 8px 12px 0;
   font-size: 1rem;
   color: var(--text-primary);
+  /* Bắt buộc phải tắt outline/shadow mặc định của trình duyệt ở input đi */
   outline: none;
+  box-shadow: none;
   min-width: 0;
 }
 
