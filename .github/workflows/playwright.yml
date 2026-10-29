@@ -20,9 +20,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "npm"
-
+        node-version: 22
+        cache: "npm"
       # 3. Cài đặt các thư viện dự án (Next.js, Supabase, Playwright...)
       - name: Install dependencies
         run: npm ci
@@ -37,6 +36,8 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
       # 6. (Tùy chọn) Tự động lưu báo cáo test (HTML Report) nếu test fail
       - name: Upload Playwright report
