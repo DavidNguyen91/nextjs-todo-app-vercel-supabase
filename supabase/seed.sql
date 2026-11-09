@@ -1,0 +1,35 @@
+-- -- Thêm user test trực tiếp vào bảng auth.users
+-- INSERT INTO auth.users (
+--   id,
+--   instance_id,
+--   aud,
+--   role,
+--   email,
+--   encrypted_password,
+--   email_confirmed_at,
+--   recovery_token,
+--   confirmation_token,
+--   raw_app_meta_data,
+--   raw_user_meta_data,
+--   created_at,
+--   updated_at
+-- )
+-- VALUES (
+--   'd9b23744-80e0-47b7-9ee1-774431e1e001',
+--   '00000000-0000-0000-0000-000000000000',
+--   'authenticated',
+--   'authenticated',
+--   'playwright-e2e-test@example.com',
+--   -- Mật khẩu 'playwright-e2e-test@-9' đã được mã hóa chuẩn bcrypt
+--   '$2a$10$C82/HkU97o.3f6XvE0k7e.fJdC7u3P60TzX62ePz3b0n6J8R.8h8S',
+--   now(),
+--   '',
+--   '',
+--   '{"provider": "email", "providers": ["email"]}',
+--   '{"name": "Playwright E2E User"}',
+--   now(),
+--   now()
+-- )
+-- ON CONFLICT (id) DO UPDATE SET
+--   email = EXCLUDED.email,
+--   encrypted_password = EXCLUDED.encrypted_password;

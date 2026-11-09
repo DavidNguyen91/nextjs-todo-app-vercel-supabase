@@ -18,10 +18,10 @@ test("người chưa đăng nhập không đọc/sửa/xóa/tạo được task"
   );
   expect(loginError).toBeNull();
 
-  const id = `task-canary-${Date.now()}`;
+  const id = crypto.randomUUID();
   const title = e2eTitle(`canary ${Date.now()}`);
 
-  const now = Date.now();
+  const now = new Date().toISOString();
   const created = await owner
     .from("tasks")
     .insert({
@@ -53,7 +53,7 @@ test("người chưa đăng nhập không đọc/sửa/xóa/tạo được task"
     expect(del.data ?? []).toHaveLength(0);
 
     const insert = await anon.from("tasks").insert({
-      id: `${id}-anon`,
+      id: crypto.randomUUID(),
       title: e2eTitle("anon insert"),
       user_id: auth.user!.id,
       created_at: now,
