@@ -9,34 +9,55 @@ on:
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
-      # 1. Tải mã nguồn từ repository xuống máy chủ ảo của GitHub
+      # 1. Tải mã nguồn từ repository
       - name: Checkout repository
+        timeout-minutes: 5
         uses: actions/checkout@v4
 
       # 2. Cài đặt môi trường Node.js
       - name: Set up Node.js
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        timeout-minutes: 5
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 26
           cache: "npm"
 
-      # 3. Cài đặt các thư viện dự án (Next.js, Supabase, Playwright...)
+      # 3. Cài đặt các thư viện dự án
       - name: Install dependencies
+        timeout-minutes: 10
         run: npm ci
 
-      # 4. Cài đặt trình duyệt Playwright cần thiết (Chromium, Firefox, WebKit...)
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      # 4. Khôi phục Chromium từ cache nếu đã có
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
-      # 5. Build Next.js app trước khi chạy test
+      # 5. Cài Chromium nếu cache chưa có
+      - name: Install Playwright Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 5
+        run: npx playwright install chromium
+
+      # 6. Build Next.js app
       - name: Build Next.js app
+        timeout-minutes: 10
         run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
-      # 6. Chạy bộ kiểm thử E2E (truyền các biến môi trường từ GitHub Secrets)
+      # 7. Chạy kiểm thử E2E
       - name: Run Playwright tests
+        timeout-minutes: 10
         run: npx playwright test
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -44,8 +65,9 @@ jobs:
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
-      # 7. (Tùy chọn) Tự động lưu báo cáo test (HTML Report) nếu test fail
+      # 8. Lưu báo cáo kiểm thử
       - name: Upload Playwright report
+        timeout-minutes: 3
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
